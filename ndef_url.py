@@ -1,10 +1,15 @@
 import nfc
 import ndef
+import argparse
 from threading import Thread
+ap=argparse.ArgumentParser()
+ap.add_argument("-u","--uri", required=True,help="add url here")
+args=vars(ap.parse_args())
+uri=args['uri']
 
 def beam(llc):
     snep_client=nfc.snep.SnepClient(llc)
-    snep_client.put_records([ndef.UriRecord("https://google.com")])
+    snep_client.put_records([ndef.UriRecord(uri)])
 
 def connected(llc):
     Thread(target=beam, args=(llc,)).start()
